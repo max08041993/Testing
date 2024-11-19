@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка API</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .error {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffebee;
+            border: 1px solid #ef9a9a;
+            border-radius: 4px;
+        }
+        .instructions {
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        #backButton {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h3 class="text-center">Проверка API</h3>
+    <p class="instructions">
+        Выполните следующие задания для проверки ваших навыков работы с API: <br>
+        1. Отправьте **GET-запрос** на указанный URL и проверьте результат. <br>
+        2. Отправьте **POST-запрос** с указанными данными и проверьте результат. <br>
+        3. Отправьте **PUT-запрос** с обновленными данными и проверьте результат. <br>
+        4. Отправьте **DELETE-запрос** для удаления ресурса. <br>
+        Используйте эту страницу или инструменты, такие как **curl** или **Postman**, для отправки запросов.
+    </p>
+
+    <div class="mb-3">
+        <h5>Пример GET-запроса:</h5>
+        <code>curl -X GET https://jsonplaceholder.typicode.com/posts/1</code>
+    </div>
+    <div class="mb-3">
+        <h5>Пример POST-запроса:</h5>
+        <code>curl -X POST https://jsonplaceholder.typicode.com/posts -H "Content-Type: application/json" -d '{"title":"foo","body":"bar","userId":1}'</code>
+    </div>
+
+    <div class="mb-3">
+        <h5>Пример PUT-запроса:</h5>
+        <code>curl -X PUT https://jsonplaceholder.typicode.com/posts/1 -H "Content-Type: application/json" -d '{"title":"updated","body":"updated text,"userId":1}'</code>
+    </div>
+
+    <div class="mb-3">
+        <h5>Пример DELETE-запроса:</h5>
+        <code>curl -X DELETE https://jsonplaceholder.typicode.com/posts/1</code>
+    </div>
+
+    <!-- Поле для ввода URL -->
+    <div class="form-group">
+        <label for="apiUrl">URL API:</label>
+        <input type="text" id="apiUrl" class="form-control" placeholder="Введите URL API">
+    </div>
+
+    <div class="button-container">
+        <!-- GET-запрос -->
+        <button id="getButton" class="btn btn-primary w-48">Выполнить GET-запрос</button>
+
+        <!-- POST-запрос -->
+        <button id="postButton" class="btn btn-success w-48">Выполнить POST-запрос</button>
+    </div>
+
+    <!-- Общее поле для данных POST/PUT запросов -->
+    <div class="form-group mt-3">
+        <label for="requestData">Данные для POST/PUT-запроса (JSON):</label>
+        <textarea id="requestData" class="form-control" rows="4" placeholder='{"key":"value"}'></textarea>
+    </div>
+
+    <div class="button-container">
+        <!-- PUT-запрос -->
+        <button id="putButton" class="btn btn-warning w-48">Выполнить PUT-запрос</button>
+
+        <!-- DELETE-запрос -->
+        <button id="deleteButton" class="btn btn-danger w-48">Выполнить DELETE-запрос</button>
+    </div>
+
+    <!-- Результат -->
+    <div id="apiResult" class="result" style="display: none;"></div>
+    <div id="apiError" class="error" style="display: none;"></div>
+
+    <!-- Кнопка назад -->
+    <button id="backButton" class="btn btn-secondary">Назад</button>
+</div>
+
+<script>
+    const showResult = (result, isError = false) => {
+        const resultElement = isError ? document.getElementById("apiError") : document.getElementById("apiResult");
+        const otherElement = isError ? document.getElementById("apiResult") : document.getElementById("apiError");
+
+        resultElement.style.display = "block";
+        otherElement.style.display = "none";
+        resultElement.innerText = result;
+    };
+
+    document.getElementById("getButton").addEventListener("click", () => {
+        const apiUrl = document.getElementById("apiUrl").value;
+        if (!apiUrl) {
+            alert("Пожалуйста, введите URL.");
+            return;
+        }
+
+        fetch(apiUrl)
+            .then(response => {
+                const result = `Код ответа: ${response.status}\n`;
+                return response.json().then(data => result + "Тело ответа:\n" + JSON.stringify(data, null, 2));
+            })
+            .then(result => showResult(result))
+            .catch(error => showResult("Ошибка: " + error.message, true));
+    });
+
+    document.getElementById("postButton").addEventListener("click", () => {
+        const apiUrl = document.getElementById("apiUrl").value;
+        const requestData = document.getElementById("requestData").value;
+
+        if (!apiUrl) {
+            alert("Пожалуйста, введите URL.");
+            return;
+        }
+
+        try {
+            const jsonData = JSON.parse(requestData);
+            fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(jsonData),
+            })
+                .then(response => {
+                    const result = `Код ответа: ${response.status}\n`;
+                    return response.json().then(data => result + "Тело ответа:\n" + JSON.stringify(data, null, 2));
+                })
+                .then(result => showResult(result))
+                .catch(error => showResult("Ошибка: " + error.message, true));
+        } catch (e) {
+            alert("Неправильный JSON-формат.");
+        }
+    });
+
+    document.getElementById("putButton").addEventListener("click", () => {
+        const apiUrl = document.getElementById("apiUrl").value;
+        const requestData = document.getElementById("requestData").value;
+        const authToken = document.getElementById("authToken").value;
+
+        if (!apiUrl) {
+            alert("Пожалуйста, введите URL.");
+            return;
+        }
+
+        try {
+            const jsonData = JSON.parse(requestData);
+            fetch(apiUrl, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${authToken}`
+                },
+                body: JSON.stringify(jsonData),
+            })
+                .then(response => {
+                    const result = `Код ответа: ${response.status}\n`;
+                    return response.json().then(data => result + "Тело ответа:\n" + JSON.stringify(data, null, 2));
+                })
+                .then(result => showResult(result))
+                .catch(error => showResult("Ошибка: " + error.message, true));
+        } catch (e) {
+            alert("Неправильный JSON-формат.");
+        }
+    });
+
+    document.getElementById("deleteButton").addEventListener("click", () => {
+        const apiUrl = document.getElementById("apiUrl").value;
+        const authToken = document.getElementById("authToken").value;
+
+        if (!apiUrl) {
+            alert("Пожалуйста, введите URL.");
+            return;
+        }
+
+        fetch(apiUrl, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${authToken}`
+            }
+        })
+            .then(response => showResult(`Код ответа: ${response.status}`))
+            .catch(error => showResult("Ошибка: " + error.message, true));
+    });
+
+    document.getElementById("backButton").addEventListener("click", () => {
+        window.location.href = "index.html"; // Укажите правильный путь к главной странице
+    });
+
+</script>
+
+</body>
+</html>
