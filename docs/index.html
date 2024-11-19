@@ -4,50 +4,98 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход</title>
+    <title>Тест XPath</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .EntityForm_item { margin-bottom: 20px; }
+        .input-label { font-weight: bold; }
+        .hint-text { font-size: 0.8rem; color: gray; }
+    </style>
 </head>
 <body>
 
 <div class="container mt-5">
-    <h2>Тест Инвитро</h2>
+    <h2 class="text-center">Тест XPath</h2>
+    <p class="text-muted text-center">Демонстрационная страница для проверки навыков работы с XPath</p>
     <div class="Modal_body">
+        <!-- Блок 1 -->
         <div class="EntityForm_sectionBody">
             <div class="EntityForm_item">
                 <label class="EntityForm_label">
-                    <span>Название поля №1</span>
+                    <span class="input-label">Название поля №1</span>
                 </label>
-            </div>
-            <div>
-                <label>
-                    <input class="Input" value=""></input>
-                </label>
+                <input class="Input" value="" id="input1" placeholder="Введите значение">
+                <p class="hint-text">Подсказка: значение можно оставить пустым.</p>
             </div>
         </div>
+
+        <!-- Блок 2 -->
         <div class="EntityForm_sectionBody">
             <div class="EntityForm_item">
                 <label class="EntityForm_label">
-                    <span>Название поля №2</span>
+                    <span class="input-label">Название поля №2</span>
                 </label>
-            </div>
-            <div>
-                <label>
-                    <input class="Input" value=""></input>
-                </label>
+                <select class="Input" id="select1">
+                    <option value="option1">Опция 1</option>
+                    <option value="option2">Опция 2</option>
+                    <option value="option3">Опция 3</option>
+                </select>
+                <p class="hint-text">Выберите одну из опций.</p>
             </div>
         </div>
+
+        <!-- Блок 3 -->
         <div class="EntityForm_sectionBody">
             <div class="EntityForm_item">
                 <label class="EntityForm_label">
-                    <span>Название поля N</span>
+                    <span class="input-label">Выбор опций (checkbox)</span>
                 </label>
+                <div>
+                    <input type="checkbox" id="checkbox1" value="option1"> Опция 1<br>
+                    <input type="checkbox" id="checkbox2" value="option2"> Опция 2<br>
+                    <input type="checkbox" id="checkbox3" value="option3"> Опция 3
+                </div>
+                <p class="hint-text">Выберите одну или несколько опций.</p>
             </div>
-            <div>
-                <label>
-                    <input class="Input" value=""></input>
+        </div>
+
+        <!-- Блок 4 -->
+        <div class="EntityForm_sectionBody">
+            <div class="EntityForm_item">
+                <label class="EntityForm_label">
+                    <span class="input-label">Текстовое поле (textarea)</span>
                 </label>
+                <textarea id="textarea1" class="Input" rows="3" placeholder="Введите текст"></textarea>
+                <p class="hint-text">Введите произвольный текст.</p>
+            </div>
+        </div>
+
+        <!-- Блок 5 -->
+        <div class="EntityForm_sectionBody">
+            <div class="EntityForm_item">
+                <label class="EntityForm_label">
+                    <span class="input-label">Поле с радиокнопками</span>
+                </label>
+                <div>
+                    <input type="radio" id="radio1" name="radioGroup" value="option1"> Опция 1<br>
+                    <input type="radio" id="radio2" name="radioGroup" value="option2"> Опция 2<br>
+                    <input type="radio" id="radio3" name="radioGroup" value="option3"> Опция 3
+                </div>
+                <p class="hint-text">Выберите одну опцию.</p>
+            </div>
+        </div>
+
+        <!-- Блок 6 -->
+        <div class="EntityForm_sectionBody">
+            <div class="EntityForm_item">
+                <label class="EntityForm_label">
+                    <span class="input-label">Скрытое поле</span>
+                </label>
+                <input type="hidden" id="hiddenField" value="secretValue">
+                <p class="hint-text">Найдите значение скрытого поля.</p>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
