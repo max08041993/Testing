@@ -79,7 +79,6 @@
     <div class="mb-3">
         <h5>Пример PUT-запроса с опечаткой:</h5>
         <code>curl -X PUT https://jsonplaceholder.typicode.com/posts/1 -H "Content-Type: application/json" -d '{"title":"updated","body":"updated text,"userId":1}'</code>
-        <small>В этом примере пропущен закрывающий кавычки после "updated text". Это вызовет ошибку, проверьте, как кандидат будет с этим работать.</small>
     </div>
 
     <div class="mb-3">
@@ -203,7 +202,7 @@
                     }
                     return response.json();
                 })
-                .then(data => showResult(`Обновление прошло успешно. Ответ: ${JSON.stringify(data, null, 2)}`))
+                .then(data => showResult(`200 OK. Ответ: ${JSON.stringify(data, null, 2)}`))
                 .catch(error => showResult("Ошибка: " + error.message, true));
         } catch (e) {
             showResult("Ошибка: Неправильный JSON-формат для PUT-запроса", true);
@@ -228,7 +227,7 @@
                 }
                 return response.json();
             })
-            .then(data => showResult(`Удаление прошло успешно. Ответ: ${JSON.stringify(data)}`))
+            .then(data => showResult(`200 OK. Ответ: ${JSON.stringify(data)}`))
             .catch(error => showResult("Ошибка: " + error.message, true));
     });
 
