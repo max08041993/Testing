@@ -35,6 +35,7 @@
             background-color: #ffebee;
             border: 1px solid #ef9a9a;
             border-radius: 4px;
+            white-space: pre-wrap;
         }
         .instructions {
             margin-bottom: 20px;
@@ -76,8 +77,9 @@
     </div>
 
     <div class="mb-3">
-        <h5>Пример PUT-запроса:</h5>
+        <h5>Пример PUT-запроса с опечаткой:</h5>
         <code>curl -X PUT https://jsonplaceholder.typicode.com/posts/1 -H "Content-Type: application/json" -d '{"title":"updated","body":"updated text,"userId":1}'</code>
+        <small>В этом примере пропущен закрывающий кавычки после "updated text". Это вызовет ошибку, проверьте, как кандидат будет с этим работать.</small>
     </div>
 
     <div class="mb-3">
@@ -131,6 +133,7 @@
         resultElement.innerText = result;
     };
 
+    // Обработчик GET-запроса
     document.getElementById("getButton").addEventListener("click", () => {
         const apiUrl = document.getElementById("apiUrl").value;
         if (!apiUrl) {
@@ -147,6 +150,7 @@
             .catch(error => showResult("Ошибка: " + error.message, true));
     });
 
+    // Обработчик POST-запроса
     document.getElementById("postButton").addEventListener("click", () => {
         const apiUrl = document.getElementById("apiUrl").value;
         const requestData = document.getElementById("requestData").value;
@@ -174,10 +178,10 @@
         }
     });
 
+    // Обработчик PUT-запроса
     document.getElementById("putButton").addEventListener("click", () => {
         const apiUrl = document.getElementById("apiUrl").value;
         const requestData = document.getElementById("requestData").value;
-        const authToken = document.getElementById("authToken").value;
 
         if (!apiUrl) {
             alert("Пожалуйста, введите URL.");
@@ -189,25 +193,26 @@
             fetch(apiUrl, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${authToken}`
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(jsonData),
             })
                 .then(response => {
-                    const result = `Код ответа: ${response.status}\n`;
-                    return response.json().then(data => result + "Тело ответа:\n" + JSON.stringify(data, null, 2));
+                    if (!response.ok) {
+                        throw new Error(`Ошибка HTTP: ${response.status}`);
+                    }
+                    return response.json();
                 })
-                .then(result => showResult(result))
+                .then(data => showResult(`Обновление прошло успешно. Ответ: ${JSON.stringify(data, null, 2)}`))
                 .catch(error => showResult("Ошибка: " + error.message, true));
         } catch (e) {
-            alert("Неправильный JSON-формат.");
+            showResult("Ошибка: Неправильный JSON-формат для PUT-запроса", true);
         }
     });
 
+    // Обработчик DELETE-запроса
     document.getElementById("deleteButton").addEventListener("click", () => {
         const apiUrl = document.getElementById("apiUrl").value;
-        const authToken = document.getElementById("authToken").value;
 
         if (!apiUrl) {
             alert("Пожалуйста, введите URL.");
@@ -216,18 +221,21 @@
 
         fetch(apiUrl, {
             method: "DELETE",
-            headers: {
-                "Authorization": `Bearer ${authToken}`
-            }
         })
-            .then(response => showResult(`Код ответа: ${response.status}`))
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Ошибка при выполнении DELETE запроса. Статус: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => showResult(`Удаление прошло успешно. Ответ: ${JSON.stringify(data)}`))
             .catch(error => showResult("Ошибка: " + error.message, true));
     });
 
+    // Кнопка назад
     document.getElementById("backButton").addEventListener("click", () => {
         window.location.href = "index.html"; // Укажите правильный путь к главной странице
     });
-
 </script>
 
 </body>
