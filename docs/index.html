@@ -5,16 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тест XPath компании Инвитро</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        .EntityForm_item { margin-bottom: 20px; }
-        .input-label { font-weight: bold; }
-        .hint-text { font-size: 0.8rem; color: gray; }
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .EntityForm_item {
+            margin-bottom: 20px;
+        }
+        .EntityForm_label span {
+            font-weight: bold;
+            color: #333333;
+        }
+        .hint-text {
+            font-size: 0.9rem;
+            color: gray;
+        }
+        .modal-title {
+            color: #007bff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        input[type="radio"]:checked + label,
+        input[type="checkbox"]:checked + label {
+            font-weight: bold;
+            color: #007bff;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container mt-5">
-    <h2 class="text-center">Тест XPath компании Инвитро</h2>
+    <h2 class="text-center modal-title">Тест XPath компании Инвитро</h2>
     <p class="text-muted text-center">Демонстрационная страница для проверки навыков работы с XPath</p>
     <div class="Modal_body">
         <!-- Блок 1 -->
@@ -23,7 +53,7 @@
                 <label class="EntityForm_label">
                     <span class="input-label">Название поля №1</span>
                 </label>
-                <input class="Input" value="Тест" id="input1" placeholder="Введите значение" text="Тест первый">
+                <input class="form-control" value="Тест" id="input1" placeholder="Введите значение" text="Тест первый">
             </div>
         </div>
 
@@ -33,7 +63,7 @@
                 <label class="EntityForm_label">
                     <span class="input-label">Название поля №2</span>
                 </label>
-                <select class="Input" id="select1">
+                <select class="form-select" id="select1">
                     <option value="option1">Опция 1</option>
                     <option value="option2">Опция 2</option>
                     <option value="option3">Опция 3</option>
@@ -48,9 +78,9 @@
                     <span class="input-label">Выбор опций (checkbox)</span>
                 </label>
                 <div>
-                    <input type="checkbox" id="checkbox1" value="option1"> Опция 1<br>
-                    <input type="checkbox" id="checkbox2" value="option2"> Опция 2<br>
-                    <input type="checkbox" id="checkbox3" value="option3"> Опция 3
+                    <input type="checkbox" id="checkbox1" value="option1"> <label for="checkbox1">Опция 1</label><br>
+                    <input type="checkbox" id="checkbox2" value="option2"> <label for="checkbox2">Опция 2</label><br>
+                    <input type="checkbox" id="checkbox3" value="option3" checked> <label for="checkbox3">Опция 3</label>
                 </div>
             </div>
         </div>
@@ -61,7 +91,7 @@
                 <label class="EntityForm_label">
                     <span class="input-label">Текстовое поле (textarea)</span>
                 </label>
-                <textarea id="textarea1" class="Input" rows="3" placeholder="Введите текст"></textarea>
+                <textarea id="textarea1" class="form-control" rows="3" placeholder="Введите текст"></textarea>
             </div>
         </div>
 
@@ -72,9 +102,9 @@
                     <span class="input-label">Поле с радиокнопками</span>
                 </label>
                 <div>
-                    <input type="radio" id="radio1" name="radioGroup" value="option1"> Опция 1<br>
-                    <input type="radio" id="radio2" name="radioGroup" value="option2"> Опция 2<br>
-                    <input type="radio" id="radio3" name="radioGroup" value="option3"> Опция 3
+                    <input type="radio" id="radio1" name="radioGroup" value="option1"> <label for="radio1">Опция 1</label><br>
+                    <input type="radio" id="radio2" name="radioGroup" value="option2"> <label for="radio2">Опция 2</label><br>
+                    <input type="radio" id="radio3" name="radioGroup" value="option3"> <label for="radio3">Опция 3</label>
                 </div>
             </div>
         </div>
@@ -91,36 +121,25 @@
         </div>
 
         <!-- Новый блок -->
-        <div class="Modal_body">
-            <div class="EntityForm_sectionBody">
-                <div class="EntityForm_item">
-                    <label class="EntityForm_label">
-                        <span>Название поля №1</span>
-                    </label>
-                </div>
-                <div>
-                    <input class="Input" value="">
-                </div>
+        <div class="EntityForm_sectionBody">
+            <h5>Новый блок с несколькими полями</h5>
+            <div class="EntityForm_item">
+                <label class="EntityForm_label">
+                    <span>Название поля №1</span>
+                </label>
+                <input class="form-control" value="">
             </div>
-            <div class="EntityForm_sectionBody">
-                <div class="EntityForm_item">
-                    <label class="EntityForm_label">
-                        <span>Название поля №2</span>
-                    </label>
-                </div>
-                <div>
-                    <input class="Input" value="">
-                </div>
+            <div class="EntityForm_item">
+                <label class="EntityForm_label">
+                    <span>Название поля №2</span>
+                </label>
+                <input class="form-control" value="">
             </div>
-            <div class="EntityForm_sectionBody">
-                <div class="EntityForm_item">
-                    <label class="EntityForm_label">
-                        <span>Название поля N</span>
-                    </label>
-                </div>
-                <div>
-                    <input class="Input" value="">
-                </div>
+            <div class="EntityForm_item">
+                <label class="EntityForm_label">
+                    <span>Название поля N</span>
+                </label>
+                <input class="form-control" value="">
             </div>
         </div>
     </div>
